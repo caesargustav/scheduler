@@ -2,7 +2,6 @@
 
 namespace CaesarGustav\Scheduler;
 
-use function collect;
 use Carbon\Carbon;
 
 use Illuminate\Support\Collection;

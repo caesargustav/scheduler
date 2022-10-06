@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use CaesarGustav\Scheduler\Event;
 use CaesarGustav\Scheduler\EventInterface;
 use CaesarGustav\Scheduler\FixedEvent;
 use Carbon\Carbon;

@@ -5,7 +5,7 @@ namespace Tests;
 use CaesarGustav\Scheduler\Block;
 use Carbon\Carbon;
 
-it('has the necessary getters to access the constructed object', function() {
+it('has the necessary getters to access the constructed object', function () {
     $now = Carbon::now();
     $block = new Block($now, 500, true);
 

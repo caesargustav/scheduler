@@ -12,7 +12,7 @@ use CaesarGustav\Scheduler\SkipRules\SkipDays;
 use CaesarGustav\Scheduler\SkipRules\SkipWeekend;
 use Carbon\Carbon;
 
-beforeEach(fn() => $this->scheduler = buildScheduler());
+beforeEach(fn () => $this->scheduler = buildScheduler());
 
 function buildScheduler(): Scheduler
 {
@@ -22,7 +22,7 @@ function buildScheduler(): Scheduler
         ->build();
 }
 
-it('can add events to the scheduler', function() {
+it('can add events to the scheduler', function () {
     $this->scheduler->addEvent(getTestEventWithDuration());
 
     expect($this->scheduler->getEvents())->toHaveCount(1);

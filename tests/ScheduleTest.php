@@ -3,11 +3,10 @@
 namespace Tests;
 
 use CaesarGustav\Scheduler\Event;
-use CaesarGustav\Scheduler\Schedule;
 use CaesarGustav\Scheduler\Scheduler;
 use Carbon\Carbon;
 
-beforeEach(function() {
+beforeEach(function () {
     Carbon::setTestNow('2022-07-15');
     $scheduler = Scheduler::builder()
         ->duration(1000)
@@ -20,14 +19,14 @@ beforeEach(function() {
     $this->schedule = $scheduler->getSchedule();
 });
 
-it('can get all blocks', function() {
+it('can get all blocks', function () {
     expect($this->schedule->getBlocks())->toHaveCount(7);
 });
 
-it('can get all events', function() {
+it('can get all events', function () {
     expect($this->schedule->getAllEvents())->toHaveCount(7);
 });
 
-it('can get all problematic events', function() {
+it('can get all problematic events', function () {
     expect($this->schedule->getProblematicEvents())->toHaveCount(2);
 });

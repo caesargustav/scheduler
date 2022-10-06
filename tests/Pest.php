@@ -22,4 +22,3 @@ function getFixedTestEvent(
 
     return new FixedEvent($startTime, $endTime);
 }
-
