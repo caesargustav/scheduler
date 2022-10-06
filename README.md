@@ -1,3 +1,7 @@
+## Purpose
+
 tbd
 
-todo: add simulated event back
+## Usage
+
+tbd
