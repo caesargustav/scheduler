@@ -1,11 +1,10 @@
 {
     "name": "caesargustav/scheduler",
-    "description": "todo",
+    "description": "PHP package to generate schedules for date ranges to use in project or resource planning tools.",
     "keywords": [
         "php",
-        "client",
-        "awork",
-        "api"
+        "project management",
+        "task scheduling"
     ],
     "license": "MIT",
     "authors": [
