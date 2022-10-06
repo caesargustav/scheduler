@@ -1,0 +1,23 @@
+name: Run PHPStan
+
+on: [ push ]
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install composer
+        uses: php-actions/composer@v5
+
+      - name: PHPStan (php-actions)
+        uses: php-actions/phpstan@v3
+        with:
+          configuration: phpstan.neon
+          path: src
+          memory_limit: 256M

@@ -1,0 +1,40 @@
+{
+    "name": "caesargustav/scheduler",
+    "description": "todo",
+    "keywords": [
+        "php",
+        "client",
+        "awork",
+        "api"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tim Kleyersburg",
+            "email": "tk@wacg.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "nesbot/carbon": "^2.62",
+        "ramsey/uuid": "^4.5",
+        "illuminate/collections": "^9.34"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22",
+        "phpstan/phpstan": "^1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "CaesarGustav\\Scheduler\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
