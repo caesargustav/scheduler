@@ -67,7 +67,8 @@ class Scheduler
 
         if ($event instanceof FixedEvent) {
             $this->fixedEvents->push($event);
-        } else {
+        }
+        if ($event instanceof Event) {
             $this->events->push($event);
         }
     }
