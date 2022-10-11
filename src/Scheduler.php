@@ -29,6 +29,35 @@ class Scheduler
         $this->dateTime = $this->nextValidDate();
     }
 
+    public function createBlock(
+        Carbon $dateTime,
+        ?int $duration = null,
+        ?int $efficiencyOverride = null,
+        ?bool $plannable = null
+    ): Block {
+        if ($this->blocks->contains(fn (Block $block) => $block->getDateTime()->isSameDay($dateTime))) {
+            throw new InvalidArgumentException('For a given date only one block may be created.');
+        }
+
+        if (! is_null($duration) && $duration < 0) {
+            throw new InvalidArgumentException('Duration must be positive.');
+        }
+
+        $block = new Block(
+            $dateTime->copy(),
+            $this->builder->getBlockDuration($duration, $efficiencyOverride) ?? 0,
+            $plannable
+        );
+        $this->blocks->push($block);
+
+        return $block;
+    }
+
+    public function skip(): void
+    {
+        $this->dateTime = $this->nextValidDate();
+    }
+
     public function addEvent(EventInterface $event): void
     {
         // We can not plan tasks without duration.
@@ -41,11 +70,6 @@ class Scheduler
         } else {
             $this->events->push($event);
         }
-    }
-
-    public function getSchedule(): Schedule
-    {
-        return new Schedule($this->generate());
     }
 
     public function generate(): Collection
@@ -98,35 +122,6 @@ class Scheduler
         ) ?? $this->createBlock($dateTime);
     }
 
-    public function createBlock(
-        Carbon $dateTime,
-        ?int $duration = null,
-        ?int $efficiencyOverride = null,
-        ?bool $plannable = null
-    ): Block {
-        if ($this->blocks->contains(fn (Block $block) => $block->getDateTime()->isSameDay($dateTime))) {
-            throw new InvalidArgumentException('For a given date only one block may be created.');
-        }
-
-        if (! is_null($duration) && $duration < 0) {
-            throw new InvalidArgumentException('Duration must be positive.');
-        }
-
-        $block = new Block(
-            $dateTime->copy()->startOfDay(),
-            $this->builder->getBlockDuration($duration, $efficiencyOverride) ?? 0,
-            $plannable
-        );
-        $this->blocks->push($block);
-
-        return $block;
-    }
-
-    public function skip(): void
-    {
-        $this->dateTime = $this->nextValidDate();
-    }
-
     private function nextValidDate(): Carbon
     {
         $dateTime = isset($this->dateTime) ? $this->dateTime->copy()->addDay() : today()->startOfDay();
@@ -154,6 +149,11 @@ class Scheduler
     public function getBuilder(): SchedulerBuilder
     {
         return $this->builder;
+    }
+
+    public function getSchedule(): Schedule
+    {
+        return new Schedule($this->generate());
     }
 
     public function getDateTime(): Carbon

@@ -42,6 +42,20 @@ class Event implements EventInterface
         return $this->end;
     }
 
+    public function setStart(Carbon $start): self
+    {
+        $this->start = $start;
+
+        return $this;
+    }
+
+    public function setEnd(Carbon $end): self
+    {
+        $this->end = $end;
+
+        return $this;
+    }
+
     public function getOriginalEvent(): mixed
     {
         return $this->originalEvent;

@@ -14,7 +14,7 @@ class Block
     private int $availableDuration;
     private Collection $plannedEvents;
 
-    public function __construct(Carbon $dateTime, int $startDuration, ?bool $isPlannable)
+    public function __construct(Carbon $dateTime, int $startDuration, ?bool $isPlannable = null)
     {
         $this->dateTime = $dateTime;
         $this->startDuration = $startDuration;

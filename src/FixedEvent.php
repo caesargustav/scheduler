@@ -9,29 +9,29 @@ use Ramsey\Uuid\Uuid;
 class FixedEvent implements EventInterface
 {
     private string $uuid;
-    private Carbon $startTime;
-    private Carbon $endTime;
+    private Carbon $start;
+    private Carbon $end;
     private ?int $duration;
     private mixed $originalEvent;
 
     public function __construct(
-        Carbon $startTime,
-        Carbon $endTime,
+        Carbon $start,
+        Carbon $end,
         ?int $duration = null,
         mixed $originalEvent = null
     ) {
-        if (! $startTime->isSameDay($endTime)) {
+        if (! $start->isSameDay($end)) {
             throw new OutOfBoundsException('Fixed events must have the same start and end date');
         }
 
-        if ($endTime->isBefore($startTime)) {
+        if ($end->isBefore($start)) {
             throw new OutOfBoundsException('End time must be after start time.');
         }
 
         $this->uuid = Uuid::uuid4();
         $this->duration = $duration;
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->start = $start;
+        $this->end = $end;
         $this->originalEvent = $originalEvent;
     }
 
@@ -47,7 +47,7 @@ class FixedEvent implements EventInterface
 
     public function getDuration(): int
     {
-        return $this->duration ?? $this->endTime->diffInSeconds($this->startTime);
+        return $this->duration ?? $this->end->diffInSeconds($this->start);
     }
 
     public function getOriginalEvent(): mixed
@@ -57,11 +57,11 @@ class FixedEvent implements EventInterface
 
     public function getStart(): Carbon
     {
-        return $this->startTime;
+        return $this->start;
     }
 
     public function getEnd(): Carbon
     {
-        return $this->endTime;
+        return $this->end;
     }
 }
