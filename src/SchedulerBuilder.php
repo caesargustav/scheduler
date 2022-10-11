@@ -82,7 +82,7 @@ class SchedulerBuilder
     }
 
     /**
-     * Return the duration of a block in seconds
+     * Returns the duration of a block in seconds
      */
     public function getBlockDuration(?int $forDuration = null, ?int $efficiencyOverride = null): ?int
     {
