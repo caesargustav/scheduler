@@ -76,11 +76,9 @@ class Scheduler
     public function generate(): Collection
     {
         $this->fixedEvents
-            ->sortBy(fn (EventInterface $event) => $event->getEnd()?->timestamp)
             ->each(fn (EventInterface $event) => $this->schedule($event));
 
         $this->events
-            ->sortBy(fn (EventInterface $event) => $event->getEnd()?->timestamp)
             ->each(fn (EventInterface $event) => $this->schedule($event));
 
         return $this->blocks;
