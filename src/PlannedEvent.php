@@ -37,7 +37,7 @@ class PlannedEvent
 
     public function isOverdue(): bool
     {
-        return $this->getBlock()->getDateTime()->isAfter($this->getEvent()->getEnd());
+        return $this->getBlock()->getDateTime()->startOfDay()->isAfter($this->getEvent()->getEnd()?->startOfDay());
     }
 
     public function isProblematic(): bool

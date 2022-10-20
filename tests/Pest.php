@@ -4,9 +4,9 @@ use CaesarGustav\Scheduler\Event;
 use CaesarGustav\Scheduler\FixedEvent;
 use Carbon\Carbon;
 
-function getTestEventWithDuration(int $duration = 1000): Event
+function getTestEventWithDuration(int $duration = 1000, string $start = '2022-06-26', string $end = '2022-06-27'): Event
 {
-    return new Event($duration, Carbon::make('2022-06-26'), Carbon::make('2022-06-27'));
+    return new Event($duration, Carbon::make($start), Carbon::make($end));
 }
 
 function getFixedTestEvent(
