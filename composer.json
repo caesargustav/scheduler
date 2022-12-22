@@ -35,5 +35,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": "pest",
+        "phpstan": "./vendor/bin/phpstan --memory-limit=2048M"
     }
 }
