@@ -6,6 +6,7 @@ use CaesarGustav\Scheduler\Scheduler;
 use CaesarGustav\Scheduler\SchedulerBuilder;
 use CaesarGustav\Scheduler\SkipRules\SkipDates;
 use CaesarGustav\Scheduler\SkipRules\SkipDays;
+use Closure;
 
 it('builds a scheduler', function () {
     $schedulerBuilder = new SchedulerBuilder();
@@ -100,4 +101,13 @@ it('can add skip rules', function () {
         ->build();
 
     expect($scheduler->getBuilder()->getSkipRules())->toHaveCount(2);
+});
+
+it('can accept and return a closure for sorting', function () {
+    $builder = (new SchedulerBuilder())
+        ->sortFunction(function ($a, $b) {
+            return $a->getStart()->getTimestamp() <=> $b->getStart()->getTimestamp();
+        });
+
+    expect($builder->getSortFunction())->toBeInstanceOf(Closure::class);
 });
