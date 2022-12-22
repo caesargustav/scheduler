@@ -319,7 +319,7 @@ it('can provide a custom function to sort events', function () {
         ->efficiency(100)
         ->sortEventsBy(
             [
-                fn (Event $a, Event $b) => $b->getDuration() <=> $a->getDuration()
+                fn (Event $a, Event $b) => $b->getDuration() <=> $a->getDuration(),
             ]
         )
         ->build();
