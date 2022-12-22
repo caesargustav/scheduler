@@ -17,3 +17,14 @@ if (! function_exists('class_basename')) {
         return basename(str_replace('\\', '/', $class));
     }
 }
+
+if (! function_exists('dd')) {
+    function dd(mixed ...$args): void
+    {
+        foreach ($args as $x) {
+            var_dump($x);
+        }
+
+        die(1);
+    }
+}
