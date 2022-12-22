@@ -79,6 +79,12 @@ class Scheduler
             ->each(fn (EventInterface $event) => $this->schedule($event));
 
         $this->events
+            ->when(
+                $this->builder->getSortFunction(),
+                function (Collection $events) {
+                    return $events->sortBy($this->builder->getSortFunction());
+                }
+            )
             ->each(fn (EventInterface $event) => $this->schedule($event));
 
         return $this->blocks;

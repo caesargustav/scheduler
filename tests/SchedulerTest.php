@@ -3,6 +3,7 @@
 namespace Tests;
 
 use CaesarGustav\Scheduler\Block;
+use CaesarGustav\Scheduler\Event;
 use CaesarGustav\Scheduler\FixedEvent;
 use CaesarGustav\Scheduler\Schedule;
 use CaesarGustav\Scheduler\Scheduler;
@@ -292,4 +293,35 @@ it('does not plan events on an unplannable block', function () {
     expect($this->scheduler->getBlocks()->first()->getPlannedEvents())->toHaveCount(0)
         ->and($this->scheduler->getBlocks()->first()->isPlannable())->toBeFalse()
         ->and($this->scheduler->getBlocks()->last()->getPlannedEvents())->toHaveCount(1);
+});
+
+it('can provide a custom function to sort events', function () {
+    $schedulerWithoutSort = Scheduler::builder()
+        ->duration(1000)
+        ->efficiency(100)
+        ->build();
+
+    $schedulerWithoutSort->addEvent(getTestEventWithDuration(300));
+    $schedulerWithoutSort->addEvent(getTestEventWithDuration(500));
+
+    $scheduleWithoutSort = $schedulerWithoutSort->getSchedule();
+    expect($scheduleWithoutSort->getBlocks()->first()->getPlannedEvents()[0]->getDuration())->toBe(300);
+    expect($scheduleWithoutSort->getBlocks()->first()->getPlannedEvents()[1]->getDuration())->toBe(500);
+
+    $schedulerWithSort = Scheduler::builder()
+        ->duration(1000)
+        ->efficiency(100)
+        ->sortFunction(function () {
+            return function (Event $a, Event $b) {
+                return $a->getDuration() <=> $b->getDuration();
+            };
+        })
+        ->build();
+
+    $schedulerWithSort->addEvent(getTestEventWithDuration(300));
+    $schedulerWithSort->addEvent(getTestEventWithDuration(500));
+
+    $scheduleWithSort = $schedulerWithSort->getSchedule();
+    expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[0]->getDuration())->toBe(500);
+    expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[1]->getDuration())->toBe(300);
 });
