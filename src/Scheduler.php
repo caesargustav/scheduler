@@ -80,9 +80,9 @@ class Scheduler
 
         $this->events
             ->when(
-                $this->builder->getSortFunction(),
+                $this->builder->getSortEventsBy(),
                 function (Collection $events) {
-                    return $events->sortBy($this->builder->getSortFunction());
+                    return $events->sortBy($this->builder->getSortEventsBy());
                 }
             )
             ->each(fn (EventInterface $event) => $this->schedule($event));

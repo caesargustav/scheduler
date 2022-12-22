@@ -110,7 +110,9 @@ it('plans fixed events on the correct date regardless of other present blocks', 
         ->and($this->scheduler->getBlocks())->toHaveCount(2)
         ->and($this->scheduler->getBlocks()->first()->getDateTime()->toDateString())->toBe('2022-02-17')
         ->and($this->scheduler->getBlocks()->last()->getDateTime()->toDateString())->toBe('2022-01-17')
-        ->and($this->scheduler->getBlocks()->first()->getPlannedEvents()->first()->getEvent())->toBeInstanceOf(FixedEvent::class)
+        ->and($this->scheduler->getBlocks()->first()->getPlannedEvents()->first()->getEvent())->toBeInstanceOf(
+            FixedEvent::class
+        )
         ->and($this->scheduler->getBlocks()->first()->getPlannedEvents())->toHaveCount(1)
         ->and($this->scheduler->getBlocks()->last()->getPlannedEvents())->toHaveCount(1);
 });
@@ -127,7 +129,9 @@ it('creates new blocks for events if fixed events use up all of the blocks durat
         ->and($this->scheduler->getEvents())->toHaveCount(1)
         ->and($this->scheduler->getBlocks())->toHaveCount(2)
         ->and($this->scheduler->getBlocks()->first()->getDateTime()->toDateString())->toBe('2022-01-17')
-        ->and($this->scheduler->getBlocks()->first()->getPlannedEvents()->first()->getEvent())->toBeInstanceOf(FixedEvent::class)
+        ->and($this->scheduler->getBlocks()->first()->getPlannedEvents()->first()->getEvent())->toBeInstanceOf(
+            FixedEvent::class
+        )
         ->and($this->scheduler->getBlocks()->last()->getDateTime()->toDateString())->toBe('2022-01-18')
         ->and($this->scheduler->getBlocks()->first()->getPlannedEvents())->toHaveCount(1)
         ->and($this->scheduler->getBlocks()->last()->getPlannedEvents())->toHaveCount(1);
@@ -145,7 +149,7 @@ it('can override the scheduler builders block duration on a per block basis', fu
         ->and($this->scheduler->getBlocks()->first()->getPlannedEvents())->toHaveCount(1)
         ->and($this->scheduler->getBlocks()->last()->getPlannedEvents())->toHaveCount(1)
         ->and($this->scheduler->getBlocks()->first()->getPlannedEvents()->first()->getDuration())->toBe(1000)
-        ->and($this->scheduler->getBlocks()->last()->getPlannedEvents()->first()->getDuration())->toBe(500) ;
+        ->and($this->scheduler->getBlocks()->last()->getPlannedEvents()->first()->getDuration())->toBe(500);
 });
 
 it('creates blocks that have a positive duration', function () {
@@ -297,31 +301,35 @@ it('does not plan events on an unplannable block', function () {
 
 it('can provide a custom function to sort events', function () {
     $schedulerWithoutSort = Scheduler::builder()
-        ->duration(1000)
+        ->duration(10000)
         ->efficiency(100)
         ->build();
 
     $schedulerWithoutSort->addEvent(getTestEventWithDuration(300));
     $schedulerWithoutSort->addEvent(getTestEventWithDuration(500));
+    $schedulerWithoutSort->addEvent(getTestEventWithDuration(400));
 
     $scheduleWithoutSort = $schedulerWithoutSort->getSchedule();
     expect($scheduleWithoutSort->getBlocks()->first()->getPlannedEvents()[0]->getDuration())->toBe(300);
     expect($scheduleWithoutSort->getBlocks()->first()->getPlannedEvents()[1]->getDuration())->toBe(500);
+    expect($scheduleWithoutSort->getBlocks()->first()->getPlannedEvents()[2]->getDuration())->toBe(400);
 
     $schedulerWithSort = Scheduler::builder()
-        ->duration(1000)
+        ->duration(10000)
         ->efficiency(100)
-        ->sortFunction(function () {
-            return function (Event $a, Event $b) {
-                return $a->getDuration() <=> $b->getDuration();
-            };
-        })
+        ->sortEventsBy(
+            [
+                fn (Event $a, Event $b) => $b->getDuration() <=> $a->getDuration()
+            ]
+        )
         ->build();
 
     $schedulerWithSort->addEvent(getTestEventWithDuration(300));
     $schedulerWithSort->addEvent(getTestEventWithDuration(500));
+    $schedulerWithSort->addEvent(getTestEventWithDuration(400));
 
     $scheduleWithSort = $schedulerWithSort->getSchedule();
     expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[0]->getDuration())->toBe(500);
-    expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[1]->getDuration())->toBe(300);
+    expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[1]->getDuration())->toBe(400);
+    expect($scheduleWithSort->getBlocks()->first()->getPlannedEvents()[2]->getDuration())->toBe(300);
 });

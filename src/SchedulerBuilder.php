@@ -3,7 +3,6 @@
 namespace CaesarGustav\Scheduler;
 
 use CaesarGustav\Scheduler\SkipRules\AbstractSkipRule;
-use Closure;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
@@ -14,8 +13,7 @@ class SchedulerBuilder
     protected Collection $skipRules;
     protected ?int $blockDuration = null;
     protected int $efficiency = 80;
-    /** @var callable $sortFunction */
-    protected $sortFunction;
+    protected array $sortEventsBy = [];
 
     public function __construct()
     {
@@ -74,9 +72,9 @@ class SchedulerBuilder
         return $this;
     }
 
-    public function sortFunction(callable $sortFunction): static
+    public function sortEventsBy(array $sortEventsBy): static
     {
-        $this->sortFunction = $sortFunction;
+        $this->sortEventsBy = $sortEventsBy;
 
         return $this;
     }
@@ -120,9 +118,9 @@ class SchedulerBuilder
         return $this->skipRules;
     }
 
-    public function getSortFunction(): ?callable
+    public function getSortEventsBy(): array
     {
-        return $this->sortFunction;
+        return $this->sortEventsBy;
     }
 
     protected function validate(): void
