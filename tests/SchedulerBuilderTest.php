@@ -6,7 +6,6 @@ use CaesarGustav\Scheduler\Scheduler;
 use CaesarGustav\Scheduler\SchedulerBuilder;
 use CaesarGustav\Scheduler\SkipRules\SkipDates;
 use CaesarGustav\Scheduler\SkipRules\SkipDays;
-use Closure;
 
 it('builds a scheduler', function () {
     $schedulerBuilder = new SchedulerBuilder();
