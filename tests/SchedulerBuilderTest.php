@@ -105,9 +105,9 @@ it('can add skip rules', function () {
 
 it('can accept and return a closure for sorting', function () {
     $builder = (new SchedulerBuilder())
-        ->sortFunction(function ($a, $b) {
+        ->sortEventsBy([function ($a, $b) {
             return $a->getStart()->getTimestamp() <=> $b->getStart()->getTimestamp();
-        });
+        }]);
 
-    expect($builder->getSortFunction())->toBeInstanceOf(Closure::class);
+    expect($builder->getSortEventsBy())->toBeArray();
 });
