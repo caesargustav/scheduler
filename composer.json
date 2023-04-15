@@ -17,7 +17,7 @@
         "php": "^8.0",
         "nesbot/carbon": "^2.62",
         "ramsey/uuid": "^4.5",
-        "illuminate/collections": "^9.34"
+        "illuminate/collections": "^9.34|^v10.7.1"
     },
     "require-dev": {
         "pestphp/pest": "^1.22",
