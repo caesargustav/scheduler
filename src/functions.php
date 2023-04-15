@@ -18,11 +18,21 @@ if (! function_exists('class_basename')) {
     }
 }
 
+if (! function_exists('d')) {
+    function d(mixed ...$args): void
+    {
+        foreach ($args as $x) {
+            var_dump($x);
+        }
+    }
+}
+
+
 if (! function_exists('dd')) {
     function dd(mixed ...$args): void
     {
         foreach ($args as $x) {
-            var_dump($x);
+            d($x);
         }
 
         die(1);
