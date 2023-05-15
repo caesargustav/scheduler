@@ -33,4 +33,11 @@ class Schedule
             ->filter(fn (PlannedEvent $event) => $event->isProblematic())
             ->unique(fn (PlannedEvent $event) => $event->getEvent()->getUuid());
     }
+
+    public function compare(Schedule $schedule): Collection
+    {
+        ray($schedule->getProblematicEvents());
+        ray($this->getProblematicEvents());
+        return $schedule->getProblematicEvents()->diffUsing($this->getProblematicEvents(), fn ($a, $b) => $a->getEvent()->getHash() <=> $b->getEvent()->getHash());
+    }
 }
