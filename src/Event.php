@@ -80,6 +80,7 @@ class Event implements EventInterface
                 $property->setAccessible(true);
                 if ($property->getName() === 'originalEvent') {
                     $hashString .= json_encode($property->getValue($this));
+
                     continue;
                 }
                 $hashString .= $property->getValue($this);

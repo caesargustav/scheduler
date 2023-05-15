@@ -38,6 +38,7 @@ class Schedule
     {
         ray($schedule->getProblematicEvents());
         ray($this->getProblematicEvents());
+
         return $schedule->getProblematicEvents()->diffUsing($this->getProblematicEvents(), fn ($a, $b) => $a->getEvent()->getHash() <=> $b->getEvent()->getHash());
     }
 }
