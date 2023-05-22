@@ -36,9 +36,6 @@ class Schedule
 
     public function compare(Schedule $schedule): Collection
     {
-        ray($schedule->getProblematicEvents());
-        ray($this->getProblematicEvents());
-
         return $schedule->getProblematicEvents()->diffUsing($this->getProblematicEvents(), fn ($a, $b) => $a->getEvent()->getHash() <=> $b->getEvent()->getHash());
     }
 }

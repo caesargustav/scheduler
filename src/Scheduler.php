@@ -44,7 +44,7 @@ class Scheduler
         }
 
         $block = new Block(
-            $dateTime->copy(),
+            $dateTime->copy()->startOfDay(),
             $this->builder->getBlockDuration($duration, $efficiencyOverride) ?? 0,
             $plannable
         );
