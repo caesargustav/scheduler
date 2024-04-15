@@ -8,12 +8,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
 
       - name: Install composer
-        uses: php-actions/composer@v5
+        uses: shivammathur/setup-php@v2
+        run: composer install
 
       - name: PHPStan
         run: composer phpstan
