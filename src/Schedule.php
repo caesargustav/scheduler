@@ -30,6 +30,7 @@ class Schedule
     public function getProblematicEvents(): Collection
     {
         return $this->getAllEvents()
+            ->filter(fn (PlannedEvent $event) => $event->getEvent() instanceof Event)
             ->filter(fn (PlannedEvent $event) => $event->isProblematic())
             ->unique(fn (PlannedEvent $event) => $event->getEvent()->getUuid());
     }
