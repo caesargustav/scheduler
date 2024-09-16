@@ -3,7 +3,6 @@
 namespace CaesarGustav\Scheduler;
 
 use Carbon\Carbon;
-
 use Illuminate\Support\Collection;
 
 class Block
