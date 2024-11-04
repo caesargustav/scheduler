@@ -39,6 +39,10 @@
     },
     "scripts": {
         "test": "pest",
-        "phpstan": "./vendor/bin/phpstan --memory-limit=2048M"
+        "phpstan": "./vendor/bin/phpstan --memory-limit=2048M",
+        "prepush": [
+            "@phpstan",
+            "@test"
+        ]
     }
 }
