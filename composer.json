@@ -20,7 +20,7 @@
         "illuminate/collections": "^9.34|^v10.7.1|^v11.3.1"
     },
     "require-dev": {
-        "pestphp/pest": "^v2.34.7",
+        "pestphp/pest": "^v3.5.1",
         "phpstan/phpstan": "^1.8",
         "spatie/ray": "^1.37"
     },
