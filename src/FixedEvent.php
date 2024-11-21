@@ -47,7 +47,7 @@ class FixedEvent implements EventInterface
 
     public function getDuration(): int
     {
-        return $this->duration ?? $this->end->diffInSeconds($this->start);
+        return $this->duration ?? $this->end->diffInSeconds($this->start, absolute: true);
     }
 
     public function getOriginalEvent(): mixed

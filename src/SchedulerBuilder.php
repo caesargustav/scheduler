@@ -102,10 +102,10 @@ class SchedulerBuilder
             /** @phpstan-ignore-next-line we call the validate() function to ensure null is never passed here */
             $end = today()->setTimeFromTimeString($this->getEndOfBlock());
 
-            $blockDuration = $end->diffInSeconds($start);
+            $blockDuration = $end->diffInSeconds($start, absolute: true);
         }
 
-        return $blockDuration * ($efficiencyOverride ?? $this->getEfficiency()) / 100;
+        return (int) $blockDuration * ($efficiencyOverride ?? $this->getEfficiency()) / 100;
     }
 
     public function getEfficiency(): int
