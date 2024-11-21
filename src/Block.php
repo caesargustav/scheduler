@@ -11,6 +11,8 @@ class Block
     private int $startDuration;
     private bool $isPlannable;
     private int $availableDuration;
+
+    /** @var Collection<int, PlannedEvent> */
     private Collection $plannedEvents;
 
     public function __construct(Carbon $dateTime, int $startDuration, ?bool $isPlannable = null)
@@ -38,7 +40,7 @@ class Block
         $this->plannedEvents->push(new PlannedEvent($event, $this, $plannableDuration));
         $this->availableDuration -= $plannableDuration;
 
-        return $this->plannedEvents->last();
+        return $this->plannedEvents->last() ?? throw new \RuntimeException('Failed to plan event');
     }
 
     public function getDateTime(): Carbon
@@ -61,6 +63,9 @@ class Block
         return $this->availableDuration;
     }
 
+    /**
+     * @return Collection<int, PlannedEvent>
+     */
     public function getPlannedEvents(): Collection
     {
         return $this->plannedEvents;

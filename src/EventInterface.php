@@ -15,4 +15,6 @@ interface EventInterface
     public function getEnd(): ?Carbon;
 
     public function getOriginalEvent(): mixed;
+
+    public function getHash(): string;
 }

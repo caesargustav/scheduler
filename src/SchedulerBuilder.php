@@ -10,9 +10,11 @@ class SchedulerBuilder
 {
     protected ?string $startOfBlock = '09:00';
     protected ?string $endOfBlock = '17:00';
+    /** @var Collection<int, AbstractSkipRule> */
     protected Collection $skipRules;
     protected ?int $blockDuration = null;
     protected int $efficiency = 80;
+    /** @var array<string> */
     protected array $sortEventsBy = [];
 
     public function __construct()
@@ -72,6 +74,9 @@ class SchedulerBuilder
         return $this;
     }
 
+    /**
+     * @param array<string> $sortEventsBy
+     */
     public function sortEventsBy(array $sortEventsBy): static
     {
         $this->sortEventsBy = $sortEventsBy;
@@ -113,11 +118,17 @@ class SchedulerBuilder
         return $this->efficiency;
     }
 
+    /**
+     * @return Collection<int, AbstractSkipRule>
+     */
     public function getSkipRules(): Collection
     {
         return $this->skipRules;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getSortEventsBy(): array
     {
         return $this->sortEventsBy;

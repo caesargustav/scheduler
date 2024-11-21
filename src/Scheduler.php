@@ -10,8 +10,11 @@ use InvalidArgumentException;
 class Scheduler
 {
     private SchedulerBuilder $builder;
+    /** @var Collection<int, FixedEvent> */
     private Collection $fixedEvents;
+    /** @var Collection<int, Event> */
     private Collection $events;
+    /** @var Collection<int, Block> */
     private Collection $blocks;
     private Carbon $dateTime;
 
@@ -73,6 +76,9 @@ class Scheduler
         }
     }
 
+    /**
+     * @return Collection<int, Block>
+     */
     public function generate(): Collection
     {
         $this->fixedEvents
@@ -166,16 +172,25 @@ class Scheduler
         return $this->dateTime;
     }
 
+    /**
+     * @return Collection<int, FixedEvent>
+     */
     public function getFixedEvents(): Collection
     {
         return $this->fixedEvents;
     }
 
+    /**
+     * @return Collection<int, Event>
+     */
     public function getEvents(): Collection
     {
         return $this->events;
     }
 
+    /**
+     * @return Collection<int, Block>
+     */
     public function getBlocks(): Collection
     {
         return $this->blocks;

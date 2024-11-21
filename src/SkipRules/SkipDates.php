@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 class SkipDates extends AbstractSkipRule
 {
+    /** @var string[] */
     private array $invalidDates;
 
     public function __construct(string ...$invalidDates)

@@ -14,6 +14,7 @@ class SkipDays extends AbstractSkipRule
     public const SATURDAY = 6;
     public const SUNDAY = 7;
 
+    /** @var int[] */
     private array $invalidDays;
 
     public function __construct(int ...$days)
