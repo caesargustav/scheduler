@@ -30,11 +30,6 @@ class PlannedEvent
         return $this->duration;
     }
 
-    public function isPremature(): bool
-    {
-        return $this->getBlock()->getDateTime()->isBefore($this->getEvent()->getStart());
-    }
-
     public function isOverdue(): bool
     {
         return $this->getBlock()->getDateTime()->startOfDay()->isAfter($this->getEvent()->getEnd()?->startOfDay());
