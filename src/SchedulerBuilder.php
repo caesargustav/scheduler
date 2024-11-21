@@ -14,7 +14,7 @@ class SchedulerBuilder
     protected Collection $skipRules;
     protected ?int $blockDuration = null;
     protected int $efficiency = 80;
-    /** @var array<string> */
+    /** @var \Closure[] */
     protected array $sortEventsBy = [];
 
     public function __construct()
@@ -75,7 +75,7 @@ class SchedulerBuilder
     }
 
     /**
-     * @param array<string> $sortEventsBy
+     * @param \Closure[] $sortEventsBy
      */
     public function sortEventsBy(array $sortEventsBy): static
     {
@@ -127,7 +127,7 @@ class SchedulerBuilder
     }
 
     /**
-     * @return array<string>
+     * @return \Closure[]
      */
     public function getSortEventsBy(): array
     {
