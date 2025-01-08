@@ -103,9 +103,14 @@ class Scheduler
                 return;
             }
 
-            $block = $this->getBlockForDate($event->getStart());
+            try {
+                $block = $this->getBlockForDate($event->getStart());
 
-            $block->planEvent($event, $event->getDuration());
+                $block->planEvent($event, $event->getDuration());
+            } catch (InvalidArgumentException $e) {
+                // it might happen that the block is not plannable which results in an exception
+                // the exception happens because the block is already present
+            }
         }
 
         if ($event instanceof Event) {
