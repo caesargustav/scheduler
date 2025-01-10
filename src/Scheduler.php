@@ -118,7 +118,7 @@ class Scheduler
 
             while ($remainingDuration > 0) {
                 $block = $this->getBlockForDate($this->dateTime);
-                if ($block->getAvailableDuration() <= 0) {
+                if ($block->getAvailableDuration() <= 0 || ! $block->isPlannable()) {
                     $this->skip();
 
                     continue;
@@ -134,7 +134,7 @@ class Scheduler
     private function getBlockForDate(Carbon $dateTime): Block
     {
         return $this->blocks->first(
-            fn (Block $block) => $block->getDateTime()->isSameDay($dateTime) && $block->isPlannable()
+            fn (Block $block) => $block->getDateTime()->isSameDay($dateTime)
         ) ?? $this->createBlock($dateTime);
     }
 

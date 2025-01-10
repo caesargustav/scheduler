@@ -5,9 +5,3 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/PlannedEvent.php
-
-		-
-			message: '#^Parameter \#1 \$date of method Carbon\\Carbon\:\:isBefore\(\) expects DateTimeInterface\|string, Carbon\\Carbon\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/PlannedEvent.php
