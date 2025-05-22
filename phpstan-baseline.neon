@@ -5,3 +5,9 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/PlannedEvent.php
+
+		-
+			message: '#^Property CaesarGustav\\Scheduler\\Scheduler\:\:\$dateTime in isset\(\) is not nullable nor uninitialized\.$#'
+			identifier: isset.initializedProperty
+			count: 1
+			path: src/Scheduler.php

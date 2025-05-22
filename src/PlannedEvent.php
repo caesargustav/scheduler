@@ -32,6 +32,10 @@ class PlannedEvent
 
     public function isOverdue(): bool
     {
+        if ($this->getEvent() instanceof FixedEvent) {
+            return false;
+        }
+
         return $this->getBlock()->getDateTime()->startOfDay()->isAfter($this->getEvent()->getEnd()?->startOfDay());
     }
 

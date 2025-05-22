@@ -21,4 +21,9 @@ it('knows if an event was planned overdue', function () {
     $plannedEvent = new PlannedEvent(getFixedTestEvent(Carbon::make('2022-10-21'), Carbon::make('2022-10-21')), $block, 10);
 
     expect($plannedEvent->isOverdue())->toBeFalse();
+
+    $block = new Block(Carbon::parse('2022-10-23'), 1000);
+    $plannedEvent = new PlannedEvent(getFixedTestEvent(Carbon::make('2022-10-21'), Carbon::make('2022-10-21')), $block, 10);
+
+    expect($plannedEvent->isOverdue())->toBeFalse();
 });
