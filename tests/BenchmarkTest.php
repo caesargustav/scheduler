@@ -28,6 +28,7 @@ function buildBenchmarkScheduler(): Scheduler
         $day = $baseDate->copy()->addDays($workday);
         if ($day->isWeekend()) {
             $workday++;
+
             continue;
         }
 
