@@ -26,14 +26,7 @@ class Schedule
      */
     public function getAllEvents(): Collection
     {
-        $events = new Collection();
-
-        /** @var Block $block */
-        foreach ($this->getBlocks() as $block) {
-            $events = $events->merge($block->getPlannedEvents());
-        }
-
-        return $events;
+        return $this->blocks->flatMap(fn (Block $block) => $block->getPlannedEvents());
     }
 
     /**

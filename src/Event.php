@@ -4,7 +4,6 @@ namespace CaesarGustav\Scheduler;
 
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
-use ReflectionClass;
 
 class Event implements EventInterface
 {
@@ -71,21 +70,6 @@ class Event implements EventInterface
 
     private function generateHash(): string
     {
-        $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties();
-        $hashString = '';
-
-        foreach ($properties as $property) {
-            if (in_array($property->getName(), ['uuid', 'hash']) === false) {
-                if ($property->getName() === 'originalEvent') {
-                    $hashString .= json_encode($property->getValue($this));
-
-                    continue;
-                }
-                $hashString .= $property->getValue($this);
-            }
-        }
-
-        return md5($hashString);
+        return md5($this->duration . $this->start . $this->end . json_encode($this->originalEvent));
     }
 }

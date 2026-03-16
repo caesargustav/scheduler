@@ -2,7 +2,6 @@
 
 namespace CaesarGustav\Scheduler;
 
-use CaesarGustav\Scheduler\SkipRules\AbstractSkipRule;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
@@ -16,6 +15,8 @@ class Scheduler
     private Collection $events;
     /** @var Collection<int, Block> */
     private Collection $blocks;
+    /** @var array<string, Block> */
+    private array $blockIndex = [];
     private Carbon $dateTime;
 
     public static function builder(): SchedulerBuilder
@@ -38,7 +39,9 @@ class Scheduler
         ?int $efficiencyOverride = null,
         ?bool $plannable = null
     ): Block {
-        if ($this->blocks->contains(fn (Block $block) => $block->getDateTime()->isSameDay($dateTime))) {
+        $key = $dateTime->toDateString();
+
+        if (isset($this->blockIndex[$key])) {
             throw new InvalidArgumentException('For a given date only one block may be created.');
         }
 
@@ -52,6 +55,7 @@ class Scheduler
             $plannable
         );
         $this->blocks->push($block);
+        $this->blockIndex[$key] = $block;
 
         return $block;
     }
@@ -133,9 +137,7 @@ class Scheduler
 
     private function getBlockForDate(Carbon $dateTime): Block
     {
-        return $this->blocks->first(
-            fn (Block $block) => $block->getDateTime()->isSameDay($dateTime)
-        ) ?? $this->createBlock($dateTime);
+        return $this->blockIndex[$dateTime->toDateString()] ?? $this->createBlock($dateTime);
     }
 
     private function nextValidDate(): Carbon
@@ -151,15 +153,13 @@ class Scheduler
 
     private function isValid(Carbon $date): bool
     {
-        $valid = true;
+        foreach ($this->builder->getSkipRules() as $rule) {
+            if (! $rule->isValid($date)) {
+                return false;
+            }
+        }
 
-        $this->builder->getSkipRules()->each(function (AbstractSkipRule $rule) use ($date, &$valid) {
-            $valid = $rule->isValid($date);
-
-            return $valid;
-        });
-
-        return $valid;
+        return true;
     }
 
     public function getBuilder(): SchedulerBuilder

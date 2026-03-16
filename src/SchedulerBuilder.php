@@ -13,6 +13,7 @@ class SchedulerBuilder
     /** @var Collection<int, AbstractSkipRule> */
     protected Collection $skipRules;
     protected ?int $blockDuration = null;
+    private ?int $cachedBaseDuration = null;
     protected int $efficiency = 80;
     /** @var \Closure[] */
     protected array $sortEventsBy = [];
@@ -102,12 +103,16 @@ class SchedulerBuilder
         $blockDuration = $forDuration ?? $this->blockDuration;
 
         if (is_null($blockDuration)) {
-            /** @phpstan-ignore-next-line we call the validate() function to ensure null is never passed here */
-            $start = today()->setTimeFromTimeString($this->getStartOfBlock());
-            /** @phpstan-ignore-next-line we call the validate() function to ensure null is never passed here */
-            $end = today()->setTimeFromTimeString($this->getEndOfBlock());
+            if ($this->cachedBaseDuration === null) {
+                /** @phpstan-ignore-next-line we call the validate() function to ensure null is never passed here */
+                $start = today()->setTimeFromTimeString($this->getStartOfBlock());
+                /** @phpstan-ignore-next-line we call the validate() function to ensure null is never passed here */
+                $end = today()->setTimeFromTimeString($this->getEndOfBlock());
 
-            $blockDuration = $end->diffInSeconds($start, absolute: true);
+                $this->cachedBaseDuration = (int) $end->diffInSeconds($start, absolute: true);
+            }
+
+            $blockDuration = $this->cachedBaseDuration;
         }
 
         return (int) $blockDuration * ($efficiencyOverride ?? $this->getEfficiency()) / 100;

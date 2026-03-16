@@ -5,7 +5,6 @@ namespace CaesarGustav\Scheduler;
 use Carbon\Carbon;
 use OutOfBoundsException;
 use Ramsey\Uuid\Uuid;
-use ReflectionClass;
 
 class FixedEvent implements EventInterface
 {
@@ -75,21 +74,6 @@ class FixedEvent implements EventInterface
 
     private function generateHash(): string
     {
-        $reflection = new ReflectionClass($this);
-        $properties = $reflection->getProperties();
-        $hashString = '';
-
-        foreach ($properties as $property) {
-            if (in_array($property->getName(), ['uuid', 'hash']) === false) {
-                if ($property->getName() === 'originalEvent') {
-                    $hashString .= json_encode($property->getValue($this));
-
-                    continue;
-                }
-                $hashString .= $property->getValue($this);
-            }
-        }
-
-        return md5($hashString);
+        return md5($this->start . $this->end . $this->duration . json_encode($this->originalEvent));
     }
 }

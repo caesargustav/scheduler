@@ -6,16 +6,16 @@ use Carbon\Carbon;
 
 class SkipDates extends AbstractSkipRule
 {
-    /** @var string[] */
+    /** @var array<string, int|string> */
     private array $invalidDates;
 
     public function __construct(string ...$invalidDates)
     {
-        $this->invalidDates = $invalidDates;
+        $this->invalidDates = array_flip($invalidDates);
     }
 
     public function isValid(Carbon $date): bool
     {
-        return ! in_array($date->toDateString(), $this->invalidDates);
+        return ! isset($this->invalidDates[$date->toDateString()]);
     }
 }
