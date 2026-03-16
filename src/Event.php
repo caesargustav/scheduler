@@ -77,7 +77,6 @@ class Event implements EventInterface
 
         foreach ($properties as $property) {
             if (in_array($property->getName(), ['uuid', 'hash']) === false) {
-                $property->setAccessible(true);
                 if ($property->getName() === 'originalEvent') {
                     $hashString .= json_encode($property->getValue($this));
 

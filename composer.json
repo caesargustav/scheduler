@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": "^8.3|^8.4",
+        "php": "^8.4",
         "nesbot/carbon": "^3.8",
         "ramsey/uuid": "^4.5",
         "illuminate/collections": "^v11.3.1|^v12.0.0"
